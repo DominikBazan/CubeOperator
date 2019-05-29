@@ -47,7 +47,7 @@ public class Cube {
             r = right0;
             b = back0;
             f = front0;
-//            shuffle();
+            new CubeDynamics(this).shuffle();
         } else if(mode.contains(".")){
 
             Colour[][] tab = getTableOfWallsFromFile(mode);

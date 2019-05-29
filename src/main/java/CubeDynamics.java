@@ -1,5 +1,7 @@
 package main.java;
 
+import java.util.Random;
+
 public class CubeDynamics {
 
     private Cube.Colour[] u, d, l, r, b, f;
@@ -14,43 +16,28 @@ public class CubeDynamics {
         f = cube.f;
     }
 
-    private void shuffle() {
+    void shuffle() {
 
-        //TODO shuffling, the rest (11) of 12 cases
-        /*Random generator = new Random();
+        Random generator = new Random();
 
         for(int i=0; i<100; i++){
-            int actionNumber = generator.nextInt()%12;
+            int actionNumber = generator.nextInt(11);
             switch (actionNumber) {
-                case 0:
-                    frontLeft();
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                case 10:
-                    break;
-                case 11:
-                    break;
-
+                case 0: frontLeft(); break;
+                case 1: frontRight(); break;
+                case 2: backLeft(); break;
+                case 3: backRight(); break;
+                case 4: leftLeft(); break;
+                case 5: leftRight(); break;
+                case 6: rightLeft(); break;
+                case 7: rightRight(); break;
+                case 8: upLeft(); break;
+                case 9: upRight(); break;
+                case 10: downLeft(); break;
+                case 11: downRight(); break;
+                default: System.out.println("Wrong random number!");
             }
         }
-        */
     }
 
 
