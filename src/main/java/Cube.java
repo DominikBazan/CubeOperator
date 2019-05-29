@@ -1,34 +1,37 @@
 package main.java;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Cube {
 
-    public Cube.Colour[] u, d, l, r, b, f;
+    public Colour[] u, d, l, r, b, f;
 
     public enum Colour {
         G, B, Y, W, R, O
     }
 
-    Cube.Colour[] up0 = {
+    private Cube.Colour[] up0 = {
             Cube.Colour.W, Cube.Colour.W, Cube.Colour.W, Cube.Colour.W, Cube.Colour.W, Cube.Colour.W, Cube.Colour.W, Cube.Colour.W, Cube.Colour.W
     };
-    Cube.Colour[] down0 = {
+    private Cube.Colour[] down0 = {
             Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y, Cube.Colour.Y
     };
-    Cube.Colour[] left0 = {
+    private Cube.Colour[] left0 = {
             Cube.Colour.R, Cube.Colour.R, Cube.Colour.R, Cube.Colour.R, Cube.Colour.R, Cube.Colour.R, Cube.Colour.R, Cube.Colour.R, Cube.Colour.R
     };
-    Cube.Colour[] right0 = {
+    private Cube.Colour[] right0 = {
             Cube.Colour.O, Cube.Colour.O, Cube.Colour.O, Cube.Colour.O, Cube.Colour.O, Cube.Colour.O, Cube.Colour.O, Cube.Colour.O, Cube.Colour.O
     };
-    Cube.Colour[] back0 = {
+    private Cube.Colour[] back0 = {
             Cube.Colour.G, Cube.Colour.G, Cube.Colour.G, Cube.Colour.G, Cube.Colour.G, Cube.Colour.G, Cube.Colour.G, Cube.Colour.G, Cube.Colour.G
     };
-    Cube.Colour[] front0 = {
+    private Cube.Colour[] front0 = {
             Cube.Colour.B, Cube.Colour.B, Cube.Colour.B, Cube.Colour.B, Cube.Colour.B, Cube.Colour.B, Cube.Colour.B, Cube.Colour.B, Cube.Colour.B
     };
 
-
-    public Cube(String mode) {
+    Cube(String mode) throws FileNotFoundException, CorruptedFile {
 
         if(mode.equals("solved")) {
             u = up0;
@@ -45,15 +48,59 @@ public class Cube {
             b = back0;
             f = front0;
 //            shuffle();
-        } else if(mode.contains("/")){
+        } else if(mode.contains(".")){
 
-            //TODO loading from file
+            Colour[][] tab = getTableOfWallsFromFile(mode);
+
+            System.out.println();
+            u = tab[0];
+            d = tab[1];
+            l = tab[2];
+            r = tab[3];
+            b = tab[4];
+            f = tab[5];
 
         }
 
     }
 
-    public void printCube(){
+    private Cube.Colour [][] getTableOfWallsFromFile(String path) throws FileNotFoundException, CorruptedFile {
+
+        File file = new File(path);
+        Scanner in = new Scanner(file);
+
+        Cube.Colour[][] result = new Cube.Colour[6][9];
+
+        for(int i=0; i<6; i++) {
+
+            String row1 = in.nextLine();
+            String row2 = in.nextLine();
+            String row3 = in.nextLine();
+
+            for(int j=0; j<3; j++) result[i][j] = whatColour(row1.substring(j,j+1));
+            for(int j=3; j<6; j++) result[i][j] = whatColour(row2.substring(j-3,j-2));
+            for(int j=6; j<9; j++) result[i][j] = whatColour(row3.substring(j-6,j-5));
+
+        }
+
+        return result;
+    }
+
+    private Cube.Colour whatColour(String sign) throws CorruptedFile {
+
+        switch (sign){
+            case "W": return Cube.Colour.W;
+            case "Y": return Cube.Colour.Y;
+            case "R": return Cube.Colour.R;
+            case "O": return Cube.Colour.O;
+            case "G": return Cube.Colour.G;
+            case "B": return Cube.Colour.B;
+            default: throw new CorruptedFile("Wrong colour!");
+        }
+
+    }
+
+    void printCube(){
         System.out.println("   |"+u[0]+u[1]+u[2]+"|");
         System.out.println("   |"+u[3]+u[4]+u[5]+"|");
         System.out.println("   |"+u[6]+u[7]+u[8]+"|");
@@ -65,7 +112,7 @@ public class Cube {
         System.out.println("   |"+d[0]+d[1]+d[2]+"|");
         System.out.println("   |"+d[3]+d[4]+d[5]+"|");
         System.out.println("   |"+d[6]+d[7]+d[8]+"|");
-        System.out.println("---+---+---");
+        System.out.println("   +---+");
         System.out.println("   |"+b[0]+b[1]+b[2]+"|");
         System.out.println("   |"+b[3]+b[4]+b[5]+"|");
         System.out.println("   |"+b[6]+b[7]+b[8]+"|");
@@ -73,9 +120,9 @@ public class Cube {
 
     }
 
-    public boolean checkIfSolved(){
+    boolean checkIfSolved(){
 
-        int indexes[] = {0,1,2,3,5,6,7,8};
+        int[] indexes = new int[]{0,1,2,3,5,6,7,8};
         Cube.Colour[] [] walls= {u, d, l, r, b, f};
         for (Cube.Colour[] wall : walls) {
             for (int i:indexes) {

@@ -2,9 +2,9 @@ package main.java;
 
 public class CubeDynamics {
 
-    Cube.Colour[] u, d, l, r, b, f;
+    private Cube.Colour[] u, d, l, r, b, f;
 
-    public CubeDynamics(Cube cube){
+    CubeDynamics(Cube cube){
 
         u = cube.u;
         d = cube.d;
@@ -55,19 +55,24 @@ public class CubeDynamics {
 
 
 
-    public void frontLeft(){
+    void frontLeft(){
 
         turnLeft(f, u, d, l, r);
     }
 
-    public void frontRight(){
+    void frontRight(){
 
         for(int i=0;i<3;i++) turnLeft(f, u, d, l, r);
     }
 
-    public void upLeft(){
+    void upLeft(){
 
+        chOrientLeft(l);
+        chOrientRight(r);
         turnLeft(u, b, f, l, r);
+        chOrientLeft(r);
+        chOrientRight(l);
+
     }
 
     public void upRight(){
@@ -75,9 +80,13 @@ public class CubeDynamics {
         for(int i=0;i<3;i++) turnLeft(u, b, f, l, r);
     }
 
-    public void downLeft(){
+    void downLeft(){
 
+        chOrientRight(l);
+        chOrientLeft(r);
         turnLeft(d, f, b, l, r);
+        chOrientLeft(l);
+        chOrientRight(r);
     }
 
     public void downRight(){
@@ -85,19 +94,35 @@ public class CubeDynamics {
         for(int i=0;i<3;i++) turnLeft(d, f, b, l, r);
     }
 
-    public void backLeft(){
+    void backLeft(){
 
+        chOrientLeft(l);chOrientLeft(l);
+        chOrientLeft(r);chOrientLeft(r);
         turnLeft(b, d, u, l, r);
+        chOrientLeft(l);chOrientLeft(l);
+        chOrientLeft(r);chOrientLeft(r);
+
     }
 
     public void backRight(){
 
+        chOrientLeft(l);chOrientLeft(l);
+        chOrientLeft(r);chOrientLeft(r);
         for(int i=0;i<3;i++) turnLeft(b, d, u, l, r);
+        chOrientLeft(l);chOrientLeft(l);
+        chOrientLeft(r);chOrientLeft(r);
+
     }
 
-    public void leftLeft(){
+    void leftLeft(){
 
+        chOrientRight(u);
+        chOrientLeft(d);
+        chOrientRight(b);chOrientRight(b);
         turnLeft(l, u, d, b, f);
+        chOrientLeft(u);
+        chOrientRight(d);
+        chOrientRight(b);chOrientRight(b);
     }
 
     public void leftRight(){
@@ -105,9 +130,15 @@ public class CubeDynamics {
         for(int i=0;i<3;i++) turnLeft(l, u, d, b, f);
     }
 
-    public void rightLeft(){
+    void rightLeft(){
 
+        chOrientRight(d);
+        chOrientLeft(u);
+        chOrientRight(b);chOrientRight(b);
         turnLeft(r, u, d, f, b);
+        chOrientLeft(d);
+        chOrientRight(u);
+        chOrientRight(b);chOrientRight(b);
     }
 
     public void rightRight(){
@@ -115,7 +146,7 @@ public class CubeDynamics {
         for(int i=0;i<3;i++) turnLeft(r, u, d, f, b);
     }
 
-    public void turnLeft(Cube.Colour[] fV, Cube.Colour[] uV, Cube.Colour[] dV, Cube.Colour[] lV, Cube.Colour[] rV) {
+    private void turnLeft(Cube.Colour[] fV, Cube.Colour[] uV, Cube.Colour[] dV, Cube.Colour[] lV, Cube.Colour[] rV) {
 
         Cube.Colour tmp;
 
@@ -147,6 +178,25 @@ public class CubeDynamics {
         lV[8] = t1;
         lV[5] = t2;
         lV[2] = t3;
+    }
+
+    void chOrientRight(Cube.Colour[] wall){
+
+        Cube.Colour tmp = wall[0];
+        wall[0] = wall[2];
+        wall[2] = wall[8];
+        wall[8] = wall[6];
+        wall[6] = tmp;
+        tmp = wall[1];
+        wall[1] = wall[5];
+        wall[5] = wall[7];
+        wall[7] = wall[3];
+        wall[3] = tmp;
+    }
+
+    private void chOrientLeft(Cube.Colour[] wall){
+
+        for(int i=0; i<3; i++) chOrientRight(wall);
     }
 
 }
