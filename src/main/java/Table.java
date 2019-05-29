@@ -13,7 +13,6 @@ public class Table {
             2) random.
             3) path to file with main.
         */
-
         System.out.println("Welcome!");
         System.out.println("It's a simple terminal user interface.");
 
