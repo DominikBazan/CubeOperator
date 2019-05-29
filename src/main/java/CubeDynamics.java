@@ -2,7 +2,7 @@ package main.java;
 
 import java.util.Random;
 
-public class CubeDynamics {
+class CubeDynamics {
 
     private Cube.Colour[] u, d, l, r, b, f;
 
@@ -62,9 +62,13 @@ public class CubeDynamics {
 
     }
 
-    public void upRight(){
+    void upRight(){
 
+        chOrientLeft(l);
+        chOrientRight(r);
         for(int i=0;i<3;i++) turnLeft(u, b, f, l, r);
+        chOrientLeft(r);
+        chOrientRight(l);
     }
 
     void downLeft(){
@@ -76,9 +80,13 @@ public class CubeDynamics {
         chOrientRight(r);
     }
 
-    public void downRight(){
+    void downRight(){
 
+        chOrientRight(l);
+        chOrientLeft(r);
         for(int i=0;i<3;i++) turnLeft(d, f, b, l, r);
+        chOrientLeft(l);
+        chOrientRight(r);
     }
 
     void backLeft(){
@@ -91,7 +99,7 @@ public class CubeDynamics {
 
     }
 
-    public void backRight(){
+    void backRight(){
 
         chOrientLeft(l);chOrientLeft(l);
         chOrientLeft(r);chOrientLeft(r);
@@ -112,9 +120,15 @@ public class CubeDynamics {
         chOrientRight(b);chOrientRight(b);
     }
 
-    public void leftRight(){
+    void leftRight(){
 
+        chOrientRight(u);
+        chOrientLeft(d);
+        chOrientRight(b);chOrientRight(b);
         for(int i=0;i<3;i++) turnLeft(l, u, d, b, f);
+        chOrientLeft(u);
+        chOrientRight(d);
+        chOrientRight(b);chOrientRight(b);
     }
 
     void rightLeft(){
@@ -128,9 +142,15 @@ public class CubeDynamics {
         chOrientRight(b);chOrientRight(b);
     }
 
-    public void rightRight(){
+    void rightRight(){
 
+        chOrientRight(d);
+        chOrientLeft(u);
+        chOrientRight(b);chOrientRight(b);
         for(int i=0;i<3;i++) turnLeft(r, u, d, f, b);
+        chOrientLeft(d);
+        chOrientRight(u);
+        chOrientRight(b);chOrientRight(b);
     }
 
     private void turnLeft(Cube.Colour[] fV, Cube.Colour[] uV, Cube.Colour[] dV, Cube.Colour[] lV, Cube.Colour[] rV) {
