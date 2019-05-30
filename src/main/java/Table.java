@@ -24,8 +24,8 @@ public class Table {
             System.out.println("\\ - End program.");
             System.out.print("Enter the number or '\\' ... ");
 
-            Scanner scaner = new Scanner(System.in);
-            String option = scaner.nextLine();
+            Scanner scanner = new Scanner(System.in);
+            String option = scanner.next();
             String mode = "exit";
             switch (option) {
                 case "1":
@@ -48,7 +48,7 @@ public class Table {
                     CubeDynamics cD = new CubeDynamics(cube);
                     cube.printCube();
                     System.out.println("q - front left; w - front right; e - back left; r - back right, t - up left; y - up right; u - down left; i - down right; o - left left; p - left right; [ - right left; ] - right right; \\ - exit");
-                    String move = scaner.next();
+                    String move = scanner.next();
                     switch (move) {
                         case "q":
                             cD.frontLeft();
